@@ -1,0 +1,282 @@
+<!doctype html>
+
+<!--
+  Copyright 2015 Mustafa Serdar Sanli
+
+  This file is part of VimArtisan.
+
+  VimArtisan is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  VimArtisan is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with VimArtisan.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- TODO add vim special lines -->
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="icon" href="Vim-Icon-Colored.png">
+
+    <!-- Following stylesheets will be modified at runtime -->
+    <style id="Style-SyntaxGroups"></style>
+    <style id="Style-TerminalSettings"></style>
+
+    <script src="external/jquery_2.1.4.min.js"></script>
+    <script src="external/bootstrap_3.3.5.min.js"></script>
+    <script src="external/spectrum_1.7.0.js"></script>
+
+    <script src="Gen.ts.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="external/bootstrap_3.3.5.min.css">
+    <link rel="stylesheet" type="text/css" href="external/spectrum_1.7.0.min.css">
+    <!-- VimArtisan.css MUST be included after bootstrap.css, otherwise bootstrap values override -->
+
+    <link rel="stylesheet" type="text/css" href="VimArtisan.css">
+  </head>
+  <body>
+
+    <!-- Google analytics block -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68150562-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!-- Fixed top header -->
+    <nav id="header" class="navbar navbar-inverse navbar-fixed-top">
+      <!-- container-fluid occupies entire width -->
+      <div class="container-fluid">
+
+        <!-- Start with a brand name/logo on left -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">VimArtisan</a>
+        </div>
+
+        <!-- Rest of the navbar -->
+        <div class="collapse navbar-collapse">
+
+          <ul class="nav navbar-nav">
+            <!-- Dropdown for language selector -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                 role="button" aria-expanded="false">
+                <span id="snippet-lang-dropdown-text">
+                  <!-- Will be filled on Page.Initialize -->
+                </span>
+                <span class="caret"></span>
+              </a>
+              <ul id="snippet-lang-select-list" class="dropdown-menu" role="menu">
+                  <!-- Will be populated on Page.Initialize -->
+              </ul>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                 role="button" aria-expanded="false">
+                 <span id="snippet-lang-dropdown-text">Configure</span>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="javascript:Page.ConfigureTerminal();">Terminal Settings</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <button class="btn btn-inverse navbar-btn navbar-left" type="button" onclick="Page.SaveCurrentStyle();">
+            Save Colorscheme
+          </button>
+
+          <!-- License / Coontact info on right -->
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="javascript:Page.ShowAboutPopup();">About</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Content (Terminals, color settings) -->
+    <div id="content" class="container-fluid">
+      <div class="row" style="height: 100%">
+
+        <!-- Column to display terminals -->
+        <!-- TODO check if col is ok (for width) -->
+        <div id="terminals" class="col-lg-6 sidebar">
+          Loading...
+        </div>
+
+        <!-- Column to display controls -->
+        <div id="controls" class="col-lg-6 col-lg-offset-6 sidebar">
+          <!-- colorscheme picker dropdown -->
+          <p>
+            <div class="btn-group">
+              <button id="vim-builtin-colorscheme-picker-button"
+                      type="button" class="btn btn-default dropdown-toggle disabled"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Load built-in colorscheme <span class="caret"></span>
+              </button>
+              <ul id="vim-builtin-colorschemes-list" class="dropdown-menu">
+                <li><a href="#" onclick=";">...</a></li>
+              </ul>
+            </div>
+          </p>
+
+          <div id="div-syntax-groups">
+            Controls will go here
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save colorscheme modal, initially hidden -->
+    <div class="modal fade" id="color-scheme-save-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Save the Colorscheme</h4>
+          </div>
+          <div id="color-scheme-save-body" class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Save coolorscheme end -->
+
+    <!-- About popup -->
+    <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">VimArtisan</h4>
+          </div>
+          <div id="about-body" class="modal-body">
+            <p>VimArtisan is a colorscheme generator for Vim. Source is available at <a href="https://github.com/mserdarsanli/VimArtisan">Github</a></p>
+
+            <p>Snippets shown are mostly from <a href="http://rosettacode.org/wiki/Rosetta_Code">Rosetta Code</a>,
+            and are available under <a href="http://www.gnu.org/licenses/fdl-1.2.html">GNU Free Documentation License 1.2</a>.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- About popup end -->
+
+    <!-- Configure terminal popup modal -->
+    <div class="modal fade" id="configure-terminal-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Terminal Settings</h4>
+          </div>
+          <div id="color-scheme-save-body" class="modal-body">
+            <p>
+              Values here are not universal, and depend on your terminal settings.<br />
+              Built-in schemes listed here are for GNOME Terminal 3.6.2
+            </p>
+
+            <h4>Foreground, Background</h4>
+            <table class="table-condensed">
+              <tr>
+                <td>Text Color</td>
+                <td>
+                  <input type='text' id="terminal-text-colorpicker" />
+                </td>
+              </tr>
+              <tr>
+                <td>Background Color</td>
+                <td>
+                  <input type='text' id="terminal-background-colorpicker" />
+                </td>
+              </tr>
+            </table>
+
+            <p>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Load built-in scheme <span class="caret"></span>
+                </button>
+                <ul id="terminal-colorscheme-reset-list" class="dropdown-menu">
+                  <!-- Will be populated on TerminalSettings.Initialize -->
+                </ul>
+              </div>
+            </p>
+
+            <h4>Palette</h4>
+
+            <table class="table-condensed">
+              <tr>
+                <td><input type='text' id="terminal-palette0-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette1-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette2-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette3-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette4-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette5-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette6-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette7-colorpicker" /></td>
+              </tr>
+              <tr>
+                <td><input type='text' id="terminal-palette8-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette9-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette10-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette11-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette12-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette13-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette14-colorpicker" /></td>
+                <td><input type='text' id="terminal-palette15-colorpicker" /></td>
+              </tr>
+            </table>
+
+            <p>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Load built-in palette <span class="caret"></span>
+                </button>
+                <ul id="terminal-palette-reset-list" class="dropdown-menu">
+                  <!-- Will be populated on TerminalSettings.Initialize -->
+                </ul>
+              </div>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Configure terminal popup modal end -->
+
+
+    <script>
+      TerminalSettings.Initialize();
+
+      Page.Initialize();
+
+      // Detect which syntax element was clicked, based on the tag name
+      $('#terminals').click(Page.GroupSelected);
+    </script>
+  </body>
+</html>

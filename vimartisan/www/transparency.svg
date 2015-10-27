@@ -1,0 +1,7 @@
+<!-- _transparency.png was produced from converting this -->
+<svg width="10" height="10">
+  <rect x="0" y="0" width="5" height="5" fill="#FFFFFF" />
+  <rect x="5" y="0" width="5" height="5" fill="#CCCCCC" />
+  <rect x="0" y="5" width="5" height="5" fill="#CCCCCC" />
+  <rect x="5" y="5" width="5" height="5" fill="#FFFFFF" />
+</svg>

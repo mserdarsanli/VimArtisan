@@ -1,0 +1,2 @@
+TODO some languages are not highlighted correctly; go, perl6 (issue with uncolor.vim)
+TODO Sometimes "20;1H~" is seen instead of "~"
