@@ -188,6 +188,16 @@ class Page {
     var fileContents =
       '" Created with VimArtisan (Vim Colorscheme Generator)\n' +
       '" http://mserdarsanli.github.io/VimArtisan/index.html\n' +
+      '\n' +
+      'hi clear\n' +
+      '\n' +
+      'if exists("syntax_on")\n' +
+      '    syntax reset\n' +
+      'endif\n' +
+      '\n' +
+      'let colors_name = "foobar"\n' + // TODO set colors name
+      '\n' +
+      'set bg&\n' +
       '\n';
 
     for (var groupName in Vim.SyntaxGroups) {
