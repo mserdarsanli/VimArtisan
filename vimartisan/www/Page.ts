@@ -206,20 +206,15 @@ class Page {
       let syntax = Vim.SyntaxGroups[groupName];
       // TODO support linkto
 
-      let fgColor = syntax.GetFgColor().ColorCode();
-      let bgColor = syntax.GetBgColor().ColorCode();
+      let fgColor = syntax.GetFgColor();
+      let bgColor = syntax.GetBgColor();
 
-      if (fgColor == -1) {
-        line += ' ctermfg=NONE';
-      } else {
-        line += ' ctermfg=' + fgColor;
-      }
-
-      if (bgColor == -1) {
-        line += ' ctermbg=NONE';
-      } else {
-        line += ' ctermbg=' + bgColor;
-      }
+      line += ' ctermfg=' + fgColor.VimTermCode();
+      line += ' ctermbg=' + bgColor.VimTermCode();
+      line += ' cterm=NONE';
+      line += ' guifg=' + fgColor.VimGuiCode();
+      line += ' guibg=' + bgColor.VimGuiCode();
+      line += ' gui=NONE';
 
       fileContents += line + '\n';
     }
