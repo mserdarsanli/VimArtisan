@@ -28,4 +28,25 @@ class TermColor {
   public ColorCode() {
     return this.colorCode256;
   }
+
+  // Returns term code for vim, to be used with ctermfg=
+  // Return color code, or NONE
+  public VimTermCode(): string {
+    if (this.colorCode256 == -1) {
+      return 'NONE';
+    } else {
+      return '' + this.colorCode256;
+    }
+  }
+
+  // Returns gui code for vim, to be used with guifg=
+  // Return color in hex, or NONE
+  public VimGuiCode(): string {
+    if (this.colorCode256 == -1) {
+      return 'NONE';
+    } else {
+      let col: Color = UserTerminal.GetColor(this.colorCode256);
+      return col.Hex();
+    }
+  }
 }

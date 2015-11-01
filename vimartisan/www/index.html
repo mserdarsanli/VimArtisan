@@ -151,6 +151,14 @@
             <h4 class="modal-title">Save the Colorscheme</h4>
           </div>
           <div id="color-scheme-save-body" class="modal-body">
+            <p>
+              Name your colorscheme <input id="colorscheme-name-input" value="foobar"></input>
+            </p>
+            <p>
+              <a href="javascript:Page.DownloadColorscheme();">Click To Download</a>
+              <!-- Helper anchor for file download -->
+              <a id="colorscheme-download-anchor" style="display:none;"></a>
+            </p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

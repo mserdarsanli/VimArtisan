@@ -47,4 +47,13 @@ class Color {
   public CssRgba() {
     return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', 1)';
   }
+
+  // Returns color in hex form like #rrggbb
+  public Hex() {
+    var res: string = '#';
+    res += (this.r < 16 ? '0' : '') + this.r.toString(16);
+    res += (this.g < 16 ? '0' : '') + this.g.toString(16);
+    res += (this.b < 16 ? '0' : '') + this.b.toString(16);
+    return res;
+  }
 }

@@ -183,11 +183,21 @@ class Page {
     Vim.SelectLanguage(language);
   }
 
-  public static SaveCurrentStyle() {
+  private static GenerateColorschemeFile(csName: string): string {
     // Create colorscheme file contents
     var fileContents =
       '" Created with VimArtisan (Vim Colorscheme Generator)\n' +
       '" http://mserdarsanli.github.io/VimArtisan/index.html\n' +
+      '\n' +
+      'hi clear\n' +
+      '\n' +
+      'if exists("syntax_on")\n' +
+      '    syntax reset\n' +
+      'endif\n' +
+      '\n' +
+      'let colors_name = "' + csName + '"\n' +
+      '\n' +
+      'set bg&\n' +
       '\n';
 
     for (var groupName in Vim.SyntaxGroups) {
@@ -196,32 +206,35 @@ class Page {
       let syntax = Vim.SyntaxGroups[groupName];
       // TODO support linkto
 
-      let fgColor = syntax.GetFgColor().ColorCode();
-      let bgColor = syntax.GetBgColor().ColorCode();
+      let fgColor = syntax.GetFgColor();
+      let bgColor = syntax.GetBgColor();
 
-      if (fgColor == -1) {
-        line += ' ctermfg=NONE';
-      } else {
-        line += ' ctermfg=' + fgColor;
-      }
-
-      if (bgColor == -1) {
-        line += ' ctermbg=NONE';
-      } else {
-        line += ' ctermbg=' + bgColor;
-      }
+      line += ' ctermfg=' + fgColor.VimTermCode();
+      line += ' ctermbg=' + bgColor.VimTermCode();
+      line += ' cterm=NONE';
+      line += ' guifg=' + fgColor.VimGuiCode();
+      line += ' guibg=' + bgColor.VimGuiCode();
+      line += ' gui=NONE';
 
       fileContents += line + '\n';
     }
 
-    var a = $('<a>')
-        .attr('href', 'data:application/octet-stream;base64,' + window.btoa(fileContents))
-        .attr('download', 'new-scheme.vim')
-        .text('Link to download');
+    return fileContents;
+  }
 
-    $('#color-scheme-save-body').html(a);
-
+  public static SaveCurrentStyle() {
     $('#color-scheme-save-modal').modal('show');
+  }
+
+  public static DownloadColorscheme() {
+    let csName = (<HTMLInputElement>document.getElementById('colorscheme-name-input')).value;
+
+    let a = <HTMLAnchorElement>document.getElementById('colorscheme-download-anchor');
+    a.href = 'data:application/octet-stream;base64,'
+           + window.btoa(Page.GenerateColorschemeFile(csName));
+    a['download'] = csName + '.vim';
+
+    a.click();
   }
 
   public static ConfigureTerminal() {
