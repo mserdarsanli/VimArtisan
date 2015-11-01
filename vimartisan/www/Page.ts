@@ -183,7 +183,7 @@ class Page {
     Vim.SelectLanguage(language);
   }
 
-  public static SaveCurrentStyle() {
+  private static GenerateColorschemeFile(csName: string): string {
     // Create colorscheme file contents
     var fileContents =
       '" Created with VimArtisan (Vim Colorscheme Generator)\n' +
@@ -195,7 +195,7 @@ class Page {
       '    syntax reset\n' +
       'endif\n' +
       '\n' +
-      'let colors_name = "foobar"\n' + // TODO set colors name
+      'let colors_name = "' + csName + '"\n' +
       '\n' +
       'set bg&\n' +
       '\n';
@@ -219,14 +219,22 @@ class Page {
       fileContents += line + '\n';
     }
 
-    var a = $('<a>')
-        .attr('href', 'data:application/octet-stream;base64,' + window.btoa(fileContents))
-        .attr('download', 'new-scheme.vim')
-        .text('Link to download');
+    return fileContents;
+  }
 
-    $('#color-scheme-save-body').html(a);
-
+  public static SaveCurrentStyle() {
     $('#color-scheme-save-modal').modal('show');
+  }
+
+  public static DownloadColorscheme() {
+    let csName = (<HTMLInputElement>document.getElementById('colorscheme-name-input')).value;
+
+    let a = <HTMLAnchorElement>document.getElementById('colorscheme-download-anchor');
+    a.href = 'data:application/octet-stream;base64,'
+           + window.btoa(Page.GenerateColorschemeFile(csName));
+    a['download'] = csName + '.vim';
+
+    a.click();
   }
 
   public static ConfigureTerminal() {
