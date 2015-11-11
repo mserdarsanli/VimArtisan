@@ -1,7 +1,7 @@
 # VimArtisan
 
 VimArtisan is a colorscheme generator for Vim. See it live at
-https://mserdarsanli.github.io/vimartisan/
+https://mserdarsanli.github.io/VimArtisan/
 
 VimArtisan is made by Mustafa Serdar Sanli.
 
