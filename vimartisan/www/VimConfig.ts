@@ -21,6 +21,7 @@ class VimConfigManager {
 
   // Data for default colorschemes, like `blue`, `desert` etc
   // It is loaded after page load, as the data is big
+  // TODO FIXME, type here is wrong.
   public BuiltinColorschemes: { [key:string]: { [key:string]:SyntaxGroup; } };
 
   public LanguageSyntax: { [key:string]: { [key:string]:SyntaxGroup; } } = {
@@ -147,6 +148,31 @@ class VimConfigManager {
     }
     // Replace with new table
     ColorTable.Create().AppendTo(wrapperDiv);
+  }
+
+  public LoadColorschemeFile(fileName: string, contents: string) {
+    console.log('Loading colorscheme file: ', fileName);
+
+    let colorscheme: {[key: string]: SyntaxGroup} = {};
+
+    let trimFn = function(s: string){
+      return s.trim();
+    }
+    let toLowerCaseFn = function(s: string){
+      return s.toLowerCase();
+    }
+
+    let lines = contents.split('\n').map(trimFn).map(toLowerCaseFn);
+
+    for (let line of lines) {
+      let sg: SyntaxGroup = SyntaxGroup.Parse(line);
+      if (!sg) {
+        continue;
+      }
+      colorscheme[sg.GetGroupName()] = sg;
+    }
+
+    this.BuiltinColorschemes[fileName] = <any>{'syntax-groups': colorscheme};
   }
 }
 

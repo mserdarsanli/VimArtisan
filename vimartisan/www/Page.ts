@@ -251,11 +251,10 @@ class Page {
     }
 
     let file = filePicker.files[0];
-    console.log('Loading colorscheme file: ', file.name);
 
     let reader = new FileReader();
     reader.onload = function(e) {
-        console.log(reader.result);
+      Vim.LoadColorschemeFile(file.name, reader.result);
     }
     reader.readAsText(file);
   }
