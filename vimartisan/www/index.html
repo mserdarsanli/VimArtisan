@@ -100,6 +100,10 @@
             Save Colorscheme
           </button>
 
+          <button class="btn btn-inverse navbar-btn navbar-left" type="button" onclick="Page.LoadColorschemeModal();">
+            Load Colorscheme
+          </button>
+
           <!-- License / Coontact info on right -->
           <ul class="nav navbar-nav navbar-right">
             <li><a href="javascript:Page.ShowAboutPopup();">About</a></li>
@@ -166,7 +170,29 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- Save coolorscheme end -->
+    <!-- Save colorscheme end -->
+
+    <!-- Load colorscheme modal, initially hidden -->
+    <div class="modal fade" id="color-scheme-load-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Upload Colorscheme (Experimental)</h4>
+          </div>
+          <div class="modal-body">
+            <p>
+              Select colorscheme to load: <input id="load-colorscheme-file" type="file"></input>
+              <button id="load-colorscheme-button" type="button" class="btn btn-default">Load</button>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Load colorscheme end -->
 
     <!-- About popup -->
     <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-hidden="true">

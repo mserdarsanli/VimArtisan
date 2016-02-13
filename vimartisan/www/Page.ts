@@ -47,6 +47,8 @@ class Page {
       }
     }
 
+    let loadColorschemeBtn = document.getElementById("load-colorscheme-button");
+    loadColorschemeBtn.addEventListener('click', Page.LoadColorscheme);
 
     Page.LoadBaseSyntaxGroups();
     Page.LoadBuiltinColorschemes();
@@ -235,6 +237,27 @@ class Page {
     a['download'] = csName + '.vim';
 
     a.click();
+  }
+
+  public static LoadColorschemeModal() {
+    $('#color-scheme-load-modal').modal('show');
+  }
+
+  public static LoadColorscheme() {
+    let filePicker = <HTMLInputElement>document.getElementById('load-colorscheme-file');
+    if (filePicker.files.length != 1) {
+      alert('No file selected');
+      return;
+    }
+
+    let file = filePicker.files[0];
+    console.log('Loading colorscheme file: ', file.name);
+
+    let reader = new FileReader();
+    reader.onload = function(e) {
+        console.log(reader.result);
+    }
+    reader.readAsText(file);
   }
 
   public static ConfigureTerminal() {
