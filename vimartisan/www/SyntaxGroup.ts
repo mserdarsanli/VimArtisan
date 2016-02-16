@@ -96,13 +96,15 @@ class SyntaxGroup {
       groupName = res[1];
     }
 
+    // TODO: Parse color names, ex: ctermbg=red
+
     // Extract ctermfg
     {
       let res = /.*\sctermfg\s*=\s*(\w*)/i.exec(line);
       if (!res) {
        return null;
       }
-      if (res[1] == 'none') {
+      if (res[1].toLowerCase() == 'none') {
         ctermfg = new TermColor(-1);
       } else {
         ctermfg = new TermColor(parseInt(res[1]));
@@ -115,7 +117,7 @@ class SyntaxGroup {
       if (!res) {
        return null;
       }
-      if (res[1] == 'none') {
+      if (res[1].toLowerCase() == 'none') {
         ctermbg = new TermColor(-1);
       } else {
         ctermbg = new TermColor(parseInt(res[1]));
