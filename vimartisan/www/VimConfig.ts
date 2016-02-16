@@ -170,6 +170,8 @@ class VimConfigManager {
     }
 
     this.BuiltinColorschemes[fileName] = <any>{'syntax-groups': colorscheme};
+
+    Page.UpdateColorschemesDropdown();
   }
 }
 

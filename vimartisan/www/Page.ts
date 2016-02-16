@@ -97,9 +97,19 @@ class Page {
    */
   private static BuiltinColorschemesLoaded = function(res: string) {
     Vim.BuiltinColorschemes = eval(res);
-
     console.log('BuiltinColorschemes', Vim.BuiltinColorschemes);
 
+    Page.UpdateColorschemesDropdown();
+
+    // Load the default colorscheme
+    console.log('Loading default colorscheme');
+    Vim.SelectColorscheme('default');
+  };
+
+  /**
+   * Should be called when new colorschemes are loaded.
+   */
+  public static UpdateColorschemesDropdown = function() {
     // Add colorschemes list to the drowdown
     let btn = document.getElementById('vim-builtin-colorscheme-picker-button');
     btn.classList.remove('disabled');
@@ -120,11 +130,7 @@ class Page {
 
       ul.appendChild(li);
     }
-
-    // Load the default colorscheme
-    console.log('Loading default colorscheme');
-    Vim.SelectColorscheme('default');
-  };
+  }
 
   // TODO move to another class
   private static LastScrolledGroupTriangle: any = undefined;
