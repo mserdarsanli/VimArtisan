@@ -47,6 +47,8 @@ class Page {
       }
     }
 
+    let loadColorschemeBtn = document.getElementById("load-colorscheme-button");
+    loadColorschemeBtn.addEventListener('click', Page.LoadColorscheme);
 
     Page.LoadBaseSyntaxGroups();
     Page.LoadBuiltinColorschemes();
@@ -95,9 +97,19 @@ class Page {
    */
   private static BuiltinColorschemesLoaded = function(res: string) {
     Vim.BuiltinColorschemes = eval(res);
-
     console.log('BuiltinColorschemes', Vim.BuiltinColorschemes);
 
+    Page.UpdateColorschemesDropdown();
+
+    // Load the default colorscheme
+    console.log('Loading default colorscheme');
+    Vim.SelectColorscheme('default');
+  };
+
+  /**
+   * Should be called when new colorschemes are loaded.
+   */
+  public static UpdateColorschemesDropdown = function() {
     // Add colorschemes list to the drowdown
     let btn = document.getElementById('vim-builtin-colorscheme-picker-button');
     btn.classList.remove('disabled');
@@ -118,11 +130,7 @@ class Page {
 
       ul.appendChild(li);
     }
-
-    // Load the default colorscheme
-    console.log('Loading default colorscheme');
-    Vim.SelectColorscheme('default');
-  };
+  }
 
   // TODO move to another class
   private static LastScrolledGroupTriangle: any = undefined;
@@ -235,6 +243,26 @@ class Page {
     a['download'] = csName + '.vim';
 
     a.click();
+  }
+
+  public static LoadColorschemeModal() {
+    $('#color-scheme-load-modal').modal('show');
+  }
+
+  public static LoadColorscheme() {
+    let filePicker = <HTMLInputElement>document.getElementById('load-colorscheme-file');
+    if (filePicker.files.length != 1) {
+      alert('No file selected');
+      return;
+    }
+
+    let file = filePicker.files[0];
+
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      Vim.LoadColorschemeFile(file.name, reader.result);
+    }
+    reader.readAsText(file);
   }
 
   public static ConfigureTerminal() {

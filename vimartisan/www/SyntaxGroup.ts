@@ -68,6 +68,65 @@ class SyntaxGroup {
     return self;
   }
 
+  static Parse(line: string): SyntaxGroup {
+    // Try parsing `hi link`
+    if (/hi\s*link/.exec(line))
+    {
+      let res = /hi\s*link\s*(\w*)\s*(\w*)/.exec(line);
+      if (!res) {
+        return null;
+      }
+      return SyntaxGroup.FromLink(res[1], res[2]);
+    }
+
+    // Parse `hi` line, example:
+    // hi SpecialKey	 ctermfg=4 ctermbg=NONE cterm=NONE guifg=#3465a4 guibg=NONE gui=NONE
+    // TODO handle color names like `yellow`
+
+    let groupName: string;
+    let ctermfg: TermColor;
+    let ctermbg: TermColor;
+
+    // Extract group name
+    {
+      let res = /hi\s(\w*)\s/.exec(line);
+      if (!res) {
+        return null;
+      }
+      groupName = res[1];
+    }
+
+    // TODO: Parse color names, ex: ctermbg=red
+
+    // Extract ctermfg
+    {
+      let res = /.*\sctermfg\s*=\s*(\w*)/i.exec(line);
+      if (!res) {
+       return null;
+      }
+      if (res[1].toLowerCase() == 'none') {
+        ctermfg = new TermColor(-1);
+      } else {
+        ctermfg = new TermColor(parseInt(res[1]));
+      }
+    }
+
+    // Extract ctermbg
+    {
+      let res = /.*\sctermbg\s*=\s*(\w*)/i.exec(line);
+      if (!res) {
+       return null;
+      }
+      if (res[1].toLowerCase() == 'none') {
+        ctermbg = new TermColor(-1);
+      } else {
+        ctermbg = new TermColor(parseInt(res[1]));
+      }
+    }
+
+    return SyntaxGroup.FromColor(groupName, ctermfg, ctermbg);
+  }
+
   public IsLink(): boolean {
     return this.isLink;
   }
@@ -220,6 +279,8 @@ class SyntaxGroup {
     return tagName;
   };
 
+  // TODO: Group name should behave case insensitively.
+  // https://github.com/mserdarsanli/VimArtisan/issues/2
   public GetGroupName() {
     return this.name;
   };
