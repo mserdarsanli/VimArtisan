@@ -158,11 +158,8 @@ class VimConfigManager {
     let trimFn = function(s: string){
       return s.trim();
     }
-    let toLowerCaseFn = function(s: string){
-      return s.toLowerCase();
-    }
 
-    let lines = contents.split('\n').map(trimFn).map(toLowerCaseFn);
+    let lines = contents.split('\n').map(trimFn);
 
     for (let line of lines) {
       let sg: SyntaxGroup = SyntaxGroup.Parse(line);

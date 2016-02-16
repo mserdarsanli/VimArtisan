@@ -98,7 +98,7 @@ class SyntaxGroup {
 
     // Extract ctermfg
     {
-      let res = /.*\sctermfg\s*=\s*(\w*)/.exec(line);
+      let res = /.*\sctermfg\s*=\s*(\w*)/i.exec(line);
       if (!res) {
        return null;
       }
@@ -111,7 +111,7 @@ class SyntaxGroup {
 
     // Extract ctermbg
     {
-      let res = /.*\sctermbg\s*=\s*(\w*)/.exec(line);
+      let res = /.*\sctermbg\s*=\s*(\w*)/i.exec(line);
       if (!res) {
        return null;
       }
@@ -277,6 +277,8 @@ class SyntaxGroup {
     return tagName;
   };
 
+  // TODO: Group name should behave case insensitively.
+  // https://github.com/mserdarsanli/VimArtisan/issues/2
   public GetGroupName() {
     return this.name;
   };
