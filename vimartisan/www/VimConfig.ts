@@ -155,6 +155,10 @@ class VimConfigManager {
 
     let colorscheme: {[key: string]: SyntaxGroup} = {};
 
+    // Since the colorscheme may not have all the required groups,
+    // Inherit them from default colorscheme.
+    colorscheme = $.extend({}, Vim.BuiltinColorschemes['default']['syntax-groups']);
+
     let trimFn = function(s: string){
       return s.trim();
     }
