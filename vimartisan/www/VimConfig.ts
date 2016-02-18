@@ -52,14 +52,14 @@ class VimConfigManager {
       this.SyntaxGroups[attr] = this.BaseSyntaxGroups[attr];
     }
 
-    let csSyntax = this.BuiltinColorschemes[this.SelectedColorscheme]['syntax-groups'];
-    for (let attr in csSyntax) {
-      this.SyntaxGroups[attr] = csSyntax[attr];
-    }
-
     let langSyntax = this.LanguageSyntax[this.SelectedLanguage]['syntax-groups'];
     for (let attr in langSyntax) {
       this.SyntaxGroups[attr] = langSyntax[attr];
+    }
+
+    let csSyntax = this.BuiltinColorschemes[this.SelectedColorscheme]['syntax-groups'];
+    for (let attr in csSyntax) {
+      this.SyntaxGroups[attr] = csSyntax[attr];
     }
 
     // TODO Remove unused grups again?
