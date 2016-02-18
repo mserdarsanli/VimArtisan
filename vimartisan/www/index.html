@@ -31,12 +31,12 @@
     <style id="Style-TerminalSettings"></style>
 
     <script src="external/jquery_2.1.4.min.js"></script>
-    <script src="external/bootstrap_3.3.5.min.js"></script>
+    <script src="external/css/bootstrap_3.3.5.min.js"></script>
     <script src="external/spectrum_1.7.0.js"></script>
 
     <script src="Gen.ts.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="external/bootstrap_3.3.5.min.css">
+    <link rel="stylesheet" type="text/css" href="external/css/bootstrap_3.3.5.min.css">
     <link rel="stylesheet" type="text/css" href="external/spectrum_1.7.0.min.css">
     <!-- VimArtisan.css MUST be included after bootstrap.css, otherwise bootstrap values override -->
 
@@ -96,11 +96,13 @@
             </li>
           </ul>
 
-          <button class="btn btn-inverse navbar-btn navbar-left" type="button" onclick="Page.SaveCurrentStyle();">
+          <button class="btn btn-inverse navbar-btn" type="button" onclick="Page.SaveCurrentStyle();">
+            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
             Save Colorscheme
           </button>
 
-          <button class="btn btn-inverse navbar-btn navbar-left" type="button" onclick="Page.LoadColorschemeModal();">
+          <button class="btn btn-inverse navbar-btn" type="button" onclick="Page.LoadColorschemeModal();">
+            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
             Load Colorscheme
           </button>
 

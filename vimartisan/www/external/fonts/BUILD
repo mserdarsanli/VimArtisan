@@ -1,4 +1,4 @@
-# Copyright 2015 Mustafa Serdar Sanli
+# Copyright 2016 Mustafa Serdar Sanli
 #
 # This file is part of VimArtisan.
 #
@@ -17,25 +17,21 @@
 
 package(
     default_visibility = [
-        "//vimartisan/www:__pkg__",
+        "//vimartisan/www/external:__pkg__",
     ],
 )
 
-# Copy must be made since they are needed to be served under the same directory
-# tree.
-load("copy_resource", "copy_resource")
+load("/vimartisan/www/external/copy_resource", "copy_resource")
 
-copy_resource("//third_party/jquery:jquery_2.1.4.min.js")
-copy_resource("//third_party/spectrum_colorpicker:spectrum_1.7.0.js")
-copy_resource("//third_party/spectrum_colorpicker:spectrum_1.7.0.min.css")
+copy_resource("//third_party/bootstrap:glyphicons-halflings-regular.woff")
+copy_resource("//third_party/bootstrap:glyphicons-halflings-regular.woff2")
+copy_resource("//third_party/bootstrap:glyphicons-halflings-regular.ttf")
 
 filegroup(
-    name = "external_resources",
+    name = "fonts",
     srcs = [
-        ":jquery_2.1.4.min.js",
-        ":spectrum_1.7.0.js",
-        ":spectrum_1.7.0.min.css",
-        "//vimartisan/www/external/css",
-        "//vimartisan/www/external/fonts",
+        ":glyphicons-halflings-regular.woff",
+        ":glyphicons-halflings-regular.woff2",
+        ":glyphicons-halflings-regular.ttf",
     ],
 )
