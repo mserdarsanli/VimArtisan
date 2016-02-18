@@ -30,6 +30,7 @@ TS_FILES = [
   'Color.ts',
   'TermColor.ts',
   'SyntaxGroup.ts',
+  'VimColor.ts',
   'VimConfig.ts',
   'VimStyle.ts',
   'Terminal.ts',

@@ -81,7 +81,6 @@ class SyntaxGroup {
 
     // Parse `hi` line, example:
     // hi SpecialKey	 ctermfg=4 ctermbg=NONE cterm=NONE guifg=#3465a4 guibg=NONE gui=NONE
-    // TODO handle color names like `yellow`
 
     let groupName: string;
     let ctermfg: TermColor;
@@ -96,19 +95,13 @@ class SyntaxGroup {
       groupName = res[1];
     }
 
-    // TODO: Parse color names, ex: ctermbg=red
-
     // Extract ctermfg
     {
       let res = /.*\sctermfg\s*=\s*(\w*)/i.exec(line);
       if (!res) {
        return null;
       }
-      if (res[1].toLowerCase() == 'none') {
-        ctermfg = new TermColor(-1);
-      } else {
-        ctermfg = new TermColor(parseInt(res[1]));
-      }
+      ctermfg = VimColor.Parse(res[1]);
     }
 
     // Extract ctermbg
@@ -117,11 +110,7 @@ class SyntaxGroup {
       if (!res) {
        return null;
       }
-      if (res[1].toLowerCase() == 'none') {
-        ctermbg = new TermColor(-1);
-      } else {
-        ctermbg = new TermColor(parseInt(res[1]));
-      }
+      ctermbg = VimColor.Parse(res[1]);
     }
 
     return SyntaxGroup.FromColor(groupName, ctermfg, ctermbg);
