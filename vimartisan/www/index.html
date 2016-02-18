@@ -103,7 +103,7 @@
 
           <button class="btn btn-inverse navbar-btn" type="button" onclick="Page.LoadColorschemeModal();">
             <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-            Load Colorscheme
+            Upload Colorscheme
           </button>
 
           <!-- License / Coontact info on right -->
@@ -184,9 +184,19 @@
           </div>
           <div class="modal-body">
             <p>
-              Select colorscheme to load: <input id="load-colorscheme-file" type="file"></input>
-              <button id="load-colorscheme-button" type="button" class="btn btn-default">Load</button>
+              After uploading, colorscheme can be loaded from built-in colorschemes dropdown.
             </p>
+            <p>
+              Select colorscheme to upload: <input id="load-colorscheme-file" type="file"></input>
+            </p>
+            <p>
+              <button id="load-colorscheme-button" type="button" class="btn btn-default">Upload</button>
+              <button id="load-colorscheme-button-done" type="button" class="btn btn-default" disabled="true">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                Uploaded
+              </button>
+            </p>
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

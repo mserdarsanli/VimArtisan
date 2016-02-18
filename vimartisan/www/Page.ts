@@ -246,6 +246,8 @@ class Page {
   }
 
   public static LoadColorschemeModal() {
+    $('#load-colorscheme-button').show();
+    $('#load-colorscheme-button-done').hide();
     $('#color-scheme-load-modal').modal('show');
   }
 
@@ -263,6 +265,11 @@ class Page {
       Vim.LoadColorschemeFile(file.name, reader.result);
     }
     reader.readAsText(file);
+  }
+
+  public static ColorschemeLoaded() {
+    $('#load-colorscheme-button').hide();
+    $('#load-colorscheme-button-done').show();
   }
 
   public static ConfigureTerminal() {
