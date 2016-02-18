@@ -30,7 +30,7 @@ apt-get update
 # Accept Oracle license
 echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
 
-apt-get install -y oracle-java8-installer npm cmake libboost-dev libgflags-dev
+apt-get install -y unzip oracle-java8-installer npm cmake libboost-dev libgflags-dev
 
 # Some nodejs tools assume the binary is named as `node`
 ln -f -s /usr/bin/nodejs /usr/bin/node
